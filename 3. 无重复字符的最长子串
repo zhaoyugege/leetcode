@@ -41,3 +41,28 @@ class Solution:
             # 第 i 到 rk 个字符是一个极长的无重复字符子串
             ans = max(ans, rk - i + 1)
         return ans
+# 依次从前到后遍历
+# 例如  p  w   i=0
+# 再次出现  w  则ans=st[s[j]] - i + 1
+# 有一个重复数字符出现就从1开始计数   取最大值
+    i   ans st[s[j]]
+p   0   1   1
+w   0   2   2
+w   2   2   3
+k   2   2   4
+e   2   3   5
+w   3   3   6
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        st = {}
+        i, ans = 0, 0
+        for j in range(len(s)):
+            if s[j] in st:
+                i = max(st[s[j]], i)
+            ans = max(ans, j - i + 1)
+            st[s[j]] = j + 1
+        return ans;
