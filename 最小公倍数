@@ -1,0 +1,58 @@
+题目描述
+正整数A和正整数B 的最小公倍数是指 能被A和B整除的最小的正整数值，设计一个算法，求输入A和B的最小公倍数。
+
+*****辗转相除法  或者   乘积/公倍数******
+ # 法1
+a,b = map(int,input().split())
+num = a if a>b else b
+for i in range(2,num+1):
+    if (a%i==0) and (b%i==0):
+        num = i
+        print(num)
+        break
+if num==(a if a>b else b):
+    print(a*b)
+else:
+    print(int(a*b/num))
+    
+ # 法2  
+a=input().split(" ")
+c=int(a[0])
+d=int(a[1])
+for b in range(2,c*d+1):
+    if b%c ==0 and b%d ==0:
+        break
+print b
+
+
+ # 法3
+def gcd(a, b):
+    """Return greatest common divisor using Euclid's Algorithm."""
+    while b:
+        a, b = b, a % b
+        print(a," ",b)
+    return a
+def lcm(a, b):
+    """Return lowest common multiple."""
+    return a * b // gcd(a, b)
+while True:
+    try:
+        a,b=map(int,input().split())
+        print(lcm(a,b))
+    except:
+        break
+ # 法4
+while True:
+    try:
+        n = raw_input().split()
+        a = int(n[0])
+        b = int(n[1])
+        i, j = a, b
+        m = a % b
+        while m != 0:
+            a = b
+            b = m
+            m = a % b
+        print i*j / b
+    except:
+        break
