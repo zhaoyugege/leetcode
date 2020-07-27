@@ -1,0 +1,12 @@
+while True:
+    try:
+        a = int(input())
+        err = 0.1
+        res = a
+        temp = 0
+        while abs(res-temp) > err:
+            temp = res
+            res = 2*temp/3+a/3/temp**2
+        print("%.1f" %res)
+    except:
+        break
