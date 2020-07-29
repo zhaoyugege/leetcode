@@ -1,0 +1,15 @@
+题目：
+https://leetcode-cn.com/problems/climbing-stairs/
+
+相当于是一个斐波那契数列
+
+class Solution:
+    def climbStairs(self, n: int) -> int:
+    if n==1 : return 1
+    if n==2 : return 2
+    one = 1
+    two = 2
+    for i in range(n):
+      one , two = two , (two+one)
+    return two
+    
