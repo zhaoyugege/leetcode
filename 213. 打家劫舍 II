@@ -16,4 +16,21 @@ class Solution:
 	for i in range(2,len(dp1)):
 		dp1[i] = max(dp1[i-2]+dp1[i],dp1[i-1])
 	return max(dp[-1],dp1[-1])
-			
+		
+*****leetcode  真的帅*****
+class Solution:
+    def rob(self, nums: [int]) -> int:
+        def my_rob(nums):
+            cur, pre = 0, 0
+            for num in nums:
+                cur, pre = max(pre + num, cur), cur
+            return cur
+        return max(my_rob(nums[:-1]),my_rob(nums[1:])) if len(nums) != 1 else nums[0]
+	
+
+*****这个可以套用
+ def my_rob(nums):
+    cur, pre = 0, 0
+    for num in nums:
+	cur, pre = max(pre + num, cur), cur
+    return cur
