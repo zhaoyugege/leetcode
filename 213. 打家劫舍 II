@@ -1,0 +1,19 @@
+题目：
+https://leetcode-cn.com/problems/house-robber-ii/
+
+正解：
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+    dp = [0 for _ in range(len(nums)+1)]
+	dp1 = dp[:]
+	
+	dp[2:] = nums[1:]
+	dp1[2:] = nums[:-1]
+	if len(nums) == 1
+		return nums[0]
+	for i in range(2,len(dp)):
+		dp[i] = max(dp[i-2]+dp[i],dp[i-1])
+	for i in range(2,len(dp1)):
+		dp1[i] = max(dp1[i-2]+dp1[i],dp1[i-1])
+	return max(dp[-1],dp1[-1])
+			
