@@ -1,0 +1,24 @@
+题目：
+https://leetcode-cn.com/problems/longest-palindromic-substring/
+
+正解：
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+		dp=[[False for _ in range(len(s))] for _ in range(len(s))]
+		lenth = 1
+		lenth_s=0
+		if not s:
+			return ''
+		for i in range(len(s)):
+			dp[i][i]=Ture
+		for j in range(len(s)):
+			for i in range(i):
+				if s[i] == s[j] and (dp[i+1][j-1] = Ture or j-i>3):
+					dp[i][j] = Ture
+				if dp[i][j]:  # 可以不需要
+					clenth = j-i+1
+					if clenth>lenth:
+						lenth = clenth
+						lenth_s=i
+						lenth_s = max(j-i+1,lenth)
+		return s[lenth_s:lenth_s+lenth]
