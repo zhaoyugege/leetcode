@@ -1,0 +1,25 @@
+题目：
+https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def kthLargest(self, root: TreeNode, k: int) -> int:
+        if not root:
+            return
+        queue = [root]
+        cur = []
+        while queue:
+            temp = queue.pop(0)
+            cur,append(temp.val)
+            if temp.left:
+                queue.append(temp.left)
+            if temp.right:
+                queue.append(temp.right)
+        cur = sorted(cur,key= lambda x:x ,reverse = True)
+        return cur[k-1]
