@@ -1,0 +1,25 @@
+题目：
+https://leetcode-cn.com/problems/er-cha-shu-de-shen-du-lcof/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            retrun
+        queue = [root]
+        step = 0
+        while queue:
+            for _ in range(len(queue)):
+                a = queue.pop(0) 
+                if a.left:
+                    queue.append(a.left)
+                if a.right:
+                    queue.append(a.right)
+            step += 1
+        return step
