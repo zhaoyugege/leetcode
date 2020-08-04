@@ -1,0 +1,409 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+先二叉树:
+经典套路:  先判断是否Tre是空，则返回空
+queuq = stack  栈的思想，先进先出，
+如果是需要按层实现  则需要for item in queue (不需要pop(0))  或者   for _ in range(len(queue)) (需要pop(0))
+永远保持先进先出的原则，如果的单纯遍历则不需要对层操作，不需要vals=[]也不需要for循环
+前序遍历 :二叉树的前序遍历指的是（中—> 左 —> 右）
+中序遍历 :中序遍历的意思就是（左—> 中 —> 右）的顺序遍历
+后序遍历 ：后序遍历的意思就是（左—> 右 —>中 ）的顺序遍历（一边是 中 右 左  倒序）
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+#  前序遍历
+class Solution:
+	def preorderTraversal(self, root):
+		ret, stack = [], [root]
+		while stack:
+			node = stack.pop()
+			if node:
+				ret.append(node.val)
+				#注意压入栈的顺序,先压入右孩子，再压入左孩子
+				stack.append(node.right)
+				stack.append(node.left)
+		return ret			
+#  中序遍历
+class Solution:
+    def inorderTraversal(self, root):
+        ret, stack = [], []
+        while stack or root:
+            if root:
+	            stack.append(root)
+	            root = root.left
+	        else:
+		        temNode = stack.pop()
+		        ret.append(temNode.val)
+		        root = temNode.right
+		return ret
+        
+#  后序遍历
+class Solution:
+    def postorderTraversal(self, root):
+        ret, stack = [], []
+        while root or stack:
+            if root:
+                stack.append(root)
+                ret.insert(0, root.val)
+                root = root.right
+            else:
+                node = stack.pop()
+                root = node.left
+        return ret
+
+#  按层次遍历  使用pop(0)
+if root is None:
+    return []
+result = []
+queue = [root]
+while queue:
+    vals = []
+    for _ in range(len(queue)):
+        cur_node = queue.pop(0)
+        vals.append(cur_node.val)
+        if cur_node.left:
+            queue.append(cur_node.left)
+        if cur_node.right:
+            queue.append(cur_node.right)
+    result.append(vals)
+return result[::-1]
+
+# 按层次遍历  不使用pop(0)
+if root is None:
+    return []
+result = []
+queue=[root]
+while queue:
+    child = []
+    node = []
+    for item in queue:
+        child.append(item.val)
+        if item.left:
+            node.append(item.left)
+        if item.right:
+            node.append(item.right)
+    queue = node
+    result.append(child)
+return result[::-1]
+
+*************************************************************************************************
+*************************************************************************************************
+多种方法实现树的遍历
+#coding=utf-8
+
+class Node(object):
+    """节点类"""
+    def __init__(self, elem=-1, lchild=None, rchild=None):
+        self.elem = elem
+        self.lchild = lchild
+        self.rchild = rchild
+
+
+class Tree(object):
+    """树类"""
+    def __init__(self):
+        self.root = Node()
+        self.myQueue = []
+
+    def add(self, elem):
+        """为树添加节点"""
+        node = Node(elem)
+        if self.root.elem == -1:  # 如果树是空的，则对根节点赋值
+            self.root = node
+            self.myQueue.append(self.root)
+        else:
+            treeNode = self.myQueue[0]  # 此结点的子树还没有齐。
+            if treeNode.lchild == None:
+                treeNode.lchild = node
+                self.myQueue.append(treeNode.lchild)
+            else:
+                treeNode.rchild = node
+                self.myQueue.append(treeNode.rchild)
+                self.myQueue.pop(0)  # 如果该结点存在右子树，将此结点丢弃。
+
+
+    def front_digui(self, root):
+        """利用递归实现树的先序遍历"""
+        if root == None:
+            return
+        print root.elem,
+        self.front_digui(root.lchild)
+        self.front_digui(root.rchild)
+
+
+    def middle_digui(self, root):
+        """利用递归实现树的中序遍历"""
+        if root == None:
+            return
+        self.middle_digui(root.lchild)
+        print root.elem,
+        self.middle_digui(root.rchild)
+
+
+    def later_digui(self, root):
+        """利用递归实现树的后序遍历"""
+        if root == None:
+            return
+        self.later_digui(root.lchild)
+        self.later_digui(root.rchild)
+        print root.elem,
+
+
+    def front_stack(self, root):
+        """利用堆栈实现树的先序遍历"""
+        if root == None:
+            return
+        myStack = []
+        node = root
+        while node or myStack:
+            while node:                     #从根节点开始，一直找它的左子树
+                print node.elem,
+                myStack.append(node)
+                node = node.lchild
+            node = myStack.pop()            #while结束表示当前节点node为空，即前一个节点没有左子树了
+            node = node.rchild                  #开始查看它的右子树
+
+
+    def middle_stack(self, root):
+        """利用堆栈实现树的中序遍历"""
+        if root == None:
+            return
+        myStack = []
+        node = root
+        while node or myStack:
+            while node:                     #从根节点开始，一直找它的左子树
+                myStack.append(node)
+                node = node.lchild
+            node = myStack.pop()            #while结束表示当前节点node为空，即前一个节点没有左子树了
+            print node.elem,
+            node = node.rchild                  #开始查看它的右子树
+
+
+    def later_stack(self, root):
+        """利用堆栈实现树的后序遍历"""
+        if root == None:
+            return
+        myStack1 = []
+        myStack2 = []
+        node = root
+        myStack1.append(node)
+        while myStack1:                   #这个while循环的功能是找出后序遍历的逆序，存在myStack2里面
+            node = myStack1.pop()
+            if node.lchild:
+                myStack1.append(node.lchild)
+            if node.rchild:
+                myStack1.append(node.rchild)
+            myStack2.append(node)
+        while myStack2:                         #将myStack2中的元素出栈，即为后序遍历次序
+            print myStack2.pop().elem,
+
+
+    def level_queue(self, root):
+        """利用队列实现树的层次遍历"""
+        if root == None:
+            return
+        myQueue = []
+        node = root
+        myQueue.append(node)
+        while myQueue:
+            node = myQueue.pop(0)
+            print node.elem,
+            if node.lchild != None:
+                myQueue.append(node.lchild)
+            if node.rchild != None:
+                myQueue.append(node.rchild)
+
+
+if __name__ == '__main__':
+    """主函数"""
+    elems = range(10)           #生成十个数据作为树节点
+    tree = Tree()          #新建一个树对象
+    for elem in elems:                  
+        tree.add(elem)           #逐个添加树的节点
+
+    print '队列实现层次遍历:'
+    tree.level_queue(tree.root)
+
+    print '\n\n递归实现先序遍历:'
+    tree.front_digui(tree.root)
+    print '\n递归实现中序遍历:' 
+    tree.middle_digui(tree.root)
+    print '\n递归实现后序遍历:'
+    tree.later_digui(tree.root)
+
+    print '\n\n堆栈实现先序遍历:'
+    tree.front_stack(tree.root)
+    print '\n堆栈实现中序遍历:'
+    tree.middle_stack(tree.root)
+    print '\n堆栈实现后序遍历:'
+    tree.later_stack(tree.root)
+    
+    
+*************************************************************************************************
+*************************************************************************************************
+
+
+
+
+# 找到克隆树里的目标树
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        res = []
+        if not original or not cloned:
+            return []
+        queue = [cloned]
+        while queue:
+            code = queue.pop(0)
+            if code.val == target.val:
+                return code
+            if code.right:
+                queue.append(code.right)
+            if code.left:
+                queue.append(code.left)
+        return []
+     
+# 以nums最大值为中心建立二叉树
+class Solution:
+    def constructMaximumBinaryTree(self, nums: List[int]) -> TreeNode:
+        def maxtree(root):
+            if not root:
+                return None
+            a = TreeNode(max(root))
+            i = root.index(a.val)
+            a.left = maxtree(root[0:i])
+            a.right = maxtree(root[i+1:])
+            return a
+        return maxtree(nums)
+ 
+ 
+ N叉树
+ 相比之下  将遍历左右孩子 变成所有的孩子（二叉树也适用）
+ 
+ 层序遍历
+ """
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        if root is None:
+            return []
+        queue = [root]                                          #初始化一个root
+        out = []
+        while queue:
+            child = []                                          #该轮循环的结果集
+            node = []                                           #为下一轮while循环提供新数据集
+            for item in queue:                                  #因为是N叉树,所以需要遍历
+                child.append(item.val)
+                if item.children: 
+                    node += item.children
+            out.append(child)
+            queue = node                                        #重要!  赋值给新 收集到的 子节点数据
+        return out
+ 
+ 
+ 后序遍历
+ class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+
+        if root is None:
+            return []
+        queue = [root]
+        res = []
+        while queue:
+            p = queue.pop()
+            res.append(p.val)
+            queue.extend(p.children)
+        return res[::-1]
+  
+  前序遍历
+  class Solution(object):
+    def preorder(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        if root is None:
+            return []
+        
+        stack, output = [root, ], []            
+        while stack:
+            root = stack.pop()
+            output.append(root.val)
+            stack.extend(root.children[::-1])
+                
+        return output
+        
+   *************************************************************************
+   *************************************************************************
+   
+# class Solution:
+#     def preorder(self, root: 'Node') -> List[int]:
+#         if root is None:
+#             return []
+#         stack = [root]                                  #初始化一个数据
+#         out = []
+#         while stack:
+#             temp = stack.pop()                          #先把栈顶的数据弹出来加入到 输出 集
+#             out.append(temp.val)
+#             if temp.children:                           #如果该元素有子节点children 则反转加入到 stack 里(因为是前序遍历)
+#                 for item in temp.children[::-1]:
+#                     stack.append(item)
+#         return out
+
+
+# # N叉树简洁递归
+# class Solution:
+#     def preorder(self, root: 'Node') -> List[int]:
+#         if not root: return []
+#         res = [root.val]
+#         for node in root.children:
+#             res.extend(self.preorder(node))
+#         return res
+
+
+
+# # N叉树通用递归模板
+# class Solution:
+#     def preorder(self, root: 'Node') -> List[int]:
+#         res = []
+#         def helper(root):
+#             if not root:
+#                 return
+#             res.append(root.val)
+#             for child in root.children:
+#                 helper(child)
+#         helper(root)
+#         return res
+
+
+
+# # N叉树迭代方法
+# class Solution:
+#     def preorder(self, root: 'Node') -> List[int]:
+#         if not root:
+#             return []
+#         s = [root]
+#         # s.append(root)
+#         res = []
+#         while s:
+#             node = s.pop()
+#             res.append(node.val)
+#             # for child in node.children[::-1]:
+#             #     s.append(child)
+#             s.extend(node.children[::-1])
+#         return res
+*************************************************************************************
+*************************************************************************************
