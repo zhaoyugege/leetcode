@@ -1,0 +1,39 @@
+题目:
+https://leetcode-cn.com/problems/list-of-depth-lcci/
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+
+class Solution:
+    def listOfDepth(self, tree: TreeNode) -> List[ListNode]:
+        if not tree:
+            return []
+        res = []
+        layer = [tree]
+        while layer:
+            cur_layer = ListNode[None]
+            cur = cur_layer
+            for _ in range(len(layer)):
+                node = layer.pop(0)
+                cur.next = ListNode(node.val)
+                cur = cur.next
+                if node.left:
+                    next_layer.append(node.left)
+                if node.right:
+                    next_layer.append(node.right)
+            res.append(cur_layer.next)
+        return res
+            
+        
