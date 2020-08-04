@@ -1,0 +1,23 @@
+题目 :
+https://leetcode-cn.com/problems/search-in-a-binary-search-tree/
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return 
+        queue = [root]
+        while queue:
+            for _ in range(len(queue)):
+                temp = queue.pop(0)
+                if temp.val == val:
+                    return temp
+                if temp.left:
+                    queue.append(temp.left)
+                if temp.right:
+                    queue.append(temp.right)
