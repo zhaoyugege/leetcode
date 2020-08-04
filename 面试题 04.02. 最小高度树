@@ -1,0 +1,14 @@
+题目：
+https://leetcode-cn.com/problems/minimum-height-tree-lcci/
+
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not nums:
+            return
+        index = len(nums) // 2
+        root = TreeNode(nums[index])
+        root.letf = self.sortArrayToBST(nums[:index])
+        root.right = self.sortArrayToBST(nums[index+1:])
+        
+        return  root
+        
